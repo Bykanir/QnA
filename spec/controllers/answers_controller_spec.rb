@@ -11,7 +11,10 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'GET #new' do
-    
+    it 'render new view' do
+      get :new, params: { question_id: question }
+      expect(response).to render_template :new
+    end
   end
 
   describe 'POST #create' do
