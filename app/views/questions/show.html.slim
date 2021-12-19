@@ -1,2 +1,7 @@
 h1= question.title
 p= question.body
+h3 Answers:
+- if question.answers.exists?
+  = render question.answers
+- else
+  p No answers yet
