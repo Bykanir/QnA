@@ -2,6 +2,9 @@
 
 h1= question.title
 p= question.body
+
+= link_to 'Delete question', question_path(question), method: :delete if question.author == current_user
+
 h3 Answers:
 - if question.answers.exists?
   = render question.answers

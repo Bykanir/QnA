@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:question) { create(:question) }
+  let(:user) { create(:user) }
+  let(:question) { create(:question, author: user) }
 
   describe 'GET #index' do
     it 'render index view' do
@@ -38,6 +39,21 @@ RSpec.describe AnswersController, type: :controller do
         post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }
         expect(response).to render_template :new
       end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    before { login(user) }
+
+    let!(:answer) { create(:answer, question: question, author: user) }
+
+    it 'delete the answer' do
+      expect { delete :destroy, params: { question_id: question, id: answer} }.to change(Answer, :count).by(-1)
+    end
+
+    it 'redirects to show' do
+      delete :destroy, params: { question_id: question, id: answer } 
+      expect(response).to redirect_to question_path(question)
     end
   end
 
