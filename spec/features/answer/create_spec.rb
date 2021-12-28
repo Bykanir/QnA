@@ -3,7 +3,7 @@ require 'rails_helper'
 feature 'Authenticated user can create answer' do
 
   given(:user) { create(:user) }
-  given!(:question) { create(:question) }
+  given!(:question) { create(:question, author: user) }
 
   describe "Authenticated user" do
     background do
@@ -15,7 +15,7 @@ feature 'Authenticated user can create answer' do
     scenario 'answer the question' do
       fill_in 'Body', with: 'My new answer'
       click_on 'Send'
-  
+
       expect(page).to have_content 'My new answer'
     end
 

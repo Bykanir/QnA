@@ -3,7 +3,7 @@ require 'rails_helper'
 feature 'User can view question and answers to it' do
 
   given(:user) { create(:user) }
-  given!(:question) { create(:question) }
+  given!(:question) { create(:question, author: user) }
   
   scenario 'User can view question' do
     visit questions_path
@@ -15,7 +15,7 @@ feature 'User can view question and answers to it' do
   end
 
   scenario 'User can view answers to question' do
-    Answer.create(body: 'MyAnswer', question: question)
+    Answer.create(body: 'MyAnswer', question: question, author: user)
     visit question_path(question)
 
     expect(page).to have_content 'MyAnswer'
