@@ -4,20 +4,6 @@ RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question, author: user) }
 
-  describe 'GET #index' do
-    it 'render index view' do
-      get :index, params: { question_id: question }
-      expect(response).to render_template :index
-    end  
-  end
-
-  describe 'GET #new' do
-    it 'render new view' do
-      get :new, params: { question_id: question }
-      expect(response).to render_template :new
-    end
-  end
-
   describe 'POST #create' do
     before { login(user) }
     
@@ -39,7 +25,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 're-renders new view' do
         post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }
-        expect(response).to render_template :new
+        expect(response).to render_template 'questions/show'
       end
     end
   end

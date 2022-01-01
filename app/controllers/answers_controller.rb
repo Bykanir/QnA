@@ -2,10 +2,6 @@ class AnswersController < ApplicationController
 
   before_action :authenticate_user!, only: [:create]
 
-  def index; end
-
-  def new; end
-
   def create
     @answer = question.answers.create(answer_params)
     @answer.author = current_user
@@ -13,13 +9,17 @@ class AnswersController < ApplicationController
     if @answer.save
       redirect_to question
     else
-      render :new
+      render 'questions/show'
     end
   end
 
   def destroy
-    answer.destroy
+    if current_user == answer.author
+      answer.destroy
     redirect_to question_path(question), alert: 'Your answer successfully deleted.'
+    else
+      render 'questions/show', alert: 'You are not the author of this answer.'
+    end
   end
 
   private
