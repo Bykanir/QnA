@@ -1,15 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
+  let(:author) { create(:user) }
   let(:user) { create(:user) }
-  let(:question) { create(:question, author: user) }
+  let(:question) { create(:question, author: author) }
 
   describe 'POST #create' do
-    before { login(user) }
+    before { login(author) }
     
     context 'with valid attributes' do
       it 'saves a new answer in the database' do
-        expect { post :create, params: { question_id: question, answer: attributes_for(:answer, author: user) } }.to change(question.answers, :count).by(1)
+        expect { post :create, params: { question_id: question, answer: attributes_for(:answer, author: author) } }.to change(question.answers, :count).by(1)
       end
       
       it 'redirects to show view' do
@@ -31,17 +32,27 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    before { login(user) }
+    let!(:answer) { create(:answer, question: question, author: author) }
 
-    let!(:answer) { create(:answer, question: question, author: user) }
+    context 'User author of the answer' do
+      before { login(author) }
 
-    it 'delete the answer' do
-      expect { delete :destroy, params: { question_id: question, id: answer} }.to change(Answer, :count).by(-1)
+      it 'delete the answer' do
+        expect { delete :destroy, params: { question_id: question, id: answer} }.to change(Answer, :count).by(-1)
+      end
+  
+      it 'redirects to show' do
+        delete :destroy, params: { question_id: question, id: answer } 
+        expect(response).to redirect_to question_path(question)
+      end
     end
 
-    it 'redirects to show' do
-      delete :destroy, params: { question_id: question, id: answer } 
-      expect(response).to redirect_to question_path(question)
+    context 'User not author of the answer' do
+      before { login(user) }
+
+      it 'delete the answer' do
+        expect { delete :destroy, params: { question_id: question, id: answer} }.to_not change(Answer, :count)
+      end
     end
   end
 
