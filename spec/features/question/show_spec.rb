@@ -5,6 +5,8 @@ feature 'User can view question and answers to it' do
   given(:user) { create(:user) }
   given!(:question) { create(:question, author: user) }
   
+  background { sign_in(user) }
+  
   scenario 'User can view question' do
     visit questions_path
     
@@ -15,8 +17,6 @@ feature 'User can view question and answers to it' do
   end
 
   scenario 'User can view answers to question' do
-    sign_in(user)
-    
     Answer.create(body: 'MyAnswer', question: question, author: user)
     visit question_path(question)
 
