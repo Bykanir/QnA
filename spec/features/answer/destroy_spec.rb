@@ -11,9 +11,13 @@ feature 'User can delete their question' do
     sign_in(author)
 
     visit question_path(question)
+    
+    expect(page).to have_content 'MyAnswer'
+
     click_on 'Delete answer'
 
     expect(page).to have_content 'Your answer successfully deleted.'
+    expect(page).to_not have_content 'MyAnswer'
   end
 
   scenario 'Any user delete answer' do
@@ -21,7 +25,13 @@ feature 'User can delete their question' do
 
     visit question_path(question)
 
-    expect(page).to_not have_content 'Delete answer'
+    expect(page).to_not have_link 'Delete answer'
+  end
+
+  scenario 'Unauthenticated user delete answer' do
+    visit question_path(question)
+
+    expect(page).to_not have_link 'Delete answer'
   end
 
 end
