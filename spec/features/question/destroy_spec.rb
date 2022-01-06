@@ -10,9 +10,13 @@ feature 'User can delete their question' do
     sign_in(author)
 
     visit question_path(question)
+
+    expect(page).to have_content 'MyString'
+
     click_on 'Delete question'
 
     expect(page).to have_content 'Your question successfully deleted.'
+    expect(page).to_not have_content 'MyString'
   end
 
   scenario 'Any user delete question' do
@@ -21,6 +25,12 @@ feature 'User can delete their question' do
     visit question_path(question)
 
     expect(page).to_not have_content 'Delete question'
+  end
+
+  scenario 'Unauthenticated user delete answer' do
+    visit question_path(question)
+
+    expect(page).to_not have_link 'Delete question'
   end
 
 end
