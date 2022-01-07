@@ -7,20 +7,25 @@ feature 'User can view question and answers to it' do
   
   background { sign_in(user) }
   
-  scenario 'User can view question' do
-    visit questions_path
-    
-    click_on 'MyString'
-
-    expect(page).to have_content 'MyString'
-    expect(page).to have_content 'MyText'
+  describe 'Questions' do
+    scenario 'User can view question' do
+      visit questions_path
+      
+      click_on 'MyString'
+      
+      expect(page).to have_content 'MyString'
+      expect(page).to have_content 'MyText'
+    end
   end
-
-  scenario 'User can view answers to question' do
-    Answer.create(body: 'MyAnswer', question: question, author: user)
-    visit question_path(question)
-
-    expect(page).to have_content 'MyAnswer'
+  
+  describe 'Answers' do
+    given!(:answers) { create_list(:answer, 2, question: question, author: user) }
+  
+    scenario 'User can view answers to question' do
+      visit question_path(question)
+      
+      answers.each { |answer| expect(page).to have_content "#{answer.body}" }
+    end
   end
 
   scenario 'For question no answers' do
