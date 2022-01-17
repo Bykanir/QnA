@@ -5,7 +5,7 @@ feature 'Authenticated user can create answer' do
   given(:user) { create(:user) }
   given!(:question) { create(:question, author: user) }
 
-  describe "Authenticated user" do
+  describe "Authenticated user", js: true do
     background do
       sign_in(user)
   
@@ -16,7 +16,10 @@ feature 'Authenticated user can create answer' do
       fill_in 'Body', with: 'My new answer'
       click_on 'Send'
 
-      expect(page).to have_content 'My new answer'
+      expect(current_path).to eq question_path(question)
+      within '.answers' do
+        expect(page).to have_content 'My new answer'
+      end
     end
 
     scenario 'answer the question with errors' do

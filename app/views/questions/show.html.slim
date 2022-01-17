@@ -5,11 +5,12 @@ p= question.body
 
 - if current_user&.author_of?(question)
   = link_to 'Delete question', question_path(question), method: :delete
-
+  
 h3 Answers:
-- if question.answers.exists?
-  = render question.answers
-- else
-  p No answers yet
+.answers
+  - if question.answers.exists?
+    = render question.answers
+  - else
+    p No answers yet
 
 = render 'answers/form' 

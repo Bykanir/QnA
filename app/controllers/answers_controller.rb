@@ -1,16 +1,15 @@
 class AnswersController < ApplicationController
 
   before_action :authenticate_user!, only: [:create]
+  before_action :answer, only: [:update]
 
   def create
-    @answer = question.answers.create(answer_params)
-    @answer.author = current_user
+    @answer = question.answers.create(answer_params.merge(author: current_user))
+  end
 
-    if @answer.save
-      redirect_to question
-    else
-      render 'questions/show'
-    end
+  def update
+    @answer.update(answer_params)
+    @question = @answer.question
   end
 
   def destroy
