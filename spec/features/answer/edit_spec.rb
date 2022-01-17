@@ -17,13 +17,15 @@ feature 'User can edit answer', %q{
     expect(page).to_not have_link 'Edit answer'
   end
   
-  describe 'Authenticated user' do
-    scenario 'edits his answer', js: true do
-      sign_in author
+  describe 'Authenticated user', js: true do
+    background do
+      sign_in(author)
       visit question_path(question)
 
       click_on 'Edit answer'
+    end
 
+    scenario 'edits his answer' do
       within '.answers' do
         fill_in 'Your answer',	with: 'Edited answer'
         click_on 'Save'
@@ -34,7 +36,20 @@ feature 'User can edit answer', %q{
       end
     end
 
-    scenario 'edits his answer with errors'
-    scenario "tries to edit other user's question"
+    scenario 'edits his answer with errors' do
+      within '.answers' do
+        fill_in '',	with: 'Edited answer'
+        click_on 'Save'
+
+        expect(page).to have_content 'Edited answer'
+       end
+    end
+  end
+
+  scenario "tries to edit other user's question", js: true do
+    sign_in(user)
+    visit question_path(question)
+
+    expect(page).to_not have_button 'Edit answer'
   end
 end
