@@ -38,10 +38,10 @@ feature 'User can edit answer', %q{
 
     scenario 'edits his answer with errors' do
       within '.answers' do
-        fill_in '',	with: 'Edited answer'
+        fill_in 'Your answer',	with: ''
         click_on 'Save'
 
-        expect(page).to have_content 'Edited answer'
+        expect(page).to have_content "Body can't be blank"
        end
     end
   end
@@ -52,4 +52,5 @@ feature 'User can edit answer', %q{
 
     expect(page).to_not have_button 'Edit answer'
   end
+  
 end
