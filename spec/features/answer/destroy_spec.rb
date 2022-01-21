@@ -7,7 +7,7 @@ feature 'User can delete their question' do
   given!(:question) { create(:question, author: author) }
   given!(:answer) { create(:answer, question: question, author: author) }
 
-  scenario 'Author delete their answer' do
+  scenario 'Author delete their answer', js: true do
     sign_in(author)
 
     visit question_path(question)

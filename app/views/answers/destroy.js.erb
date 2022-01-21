@@ -1,0 +1,3 @@
+$('.answer-<%= @answer.id %>').remove();
+$('.answers').html('<%= j render @question.answers %>');
+$('.answers').html('<%= flash[:notice] %>');
