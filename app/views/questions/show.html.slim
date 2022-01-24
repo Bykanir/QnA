@@ -1,12 +1,12 @@
 = render 'form'
-
+.notice
 h3 Answers:
 .answers
   .answer-errors
     = render 'shared/errors', resource: @answer
 
   - if question.answers.exists?
-    = render question.answers
+    = render question.answers.sort_by_best
   - else
     p No answers yet
 

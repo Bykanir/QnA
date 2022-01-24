@@ -4,7 +4,9 @@ Rails.application.routes.draw do
   root to: 'questions#index'
 
   resources :questions do
-    resources :answers, only: [:create, :update, :destroy]
+    resources :answers, only: [:create, :update, :destroy] do
+      patch :best, on: :member
+    end
   end
   
 end

@@ -77,13 +77,27 @@ RSpec.describe AnswersController, type: :controller do
           patch :update, params: { question_id: question, id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
         end.to_not change(answer, :body)
       end
+
       it 'renders update view' do
         patch :update, params: { question_id: question, id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
         expect(response).to render_template :update
       end
     end
-    
   end
-  
 
+  describe 'PATCH #best' do
+    before { login(author) }
+
+    it 'author mark answer best' do
+      patch :best, params: { question_id: question, id: answer, format: :js}
+      answer.reload
+      expect(answer).to be_best
+    end
+
+    it 'renders best view' do
+      patch :best, params: { question_id: question, id: answer, format: :js}
+      expect(response).to render_template :best
+    end
+  end
+    
 end

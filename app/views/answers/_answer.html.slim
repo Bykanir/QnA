@@ -1,10 +1,16 @@
-p= answer.body
-- if current_user&.author_of?(answer) && answer.persisted?
-  = link_to  'Edit answer', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
-  p= link_to 'Delete answer', question_answer_path(question, answer), 
-              class: 'delete-answer-link', 
-              method: :delete, remote: true, 
-              data: { answer_id: answer.id }
+div id="answer-#{answer.id}"
+  p= answer.body
+  - if current_user&.author_of?(answer) && answer.persisted?
+    = link_to  'Edit answer', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+    p= link_to 'Delete answer', question_answer_path(question, answer), 
+                class: 'delete-answer-link', 
+                method: :delete, remote: true, 
+                data: { answer_id: answer.id }
+  - if !answer.best? && current_user&.author_of?(question)
+    p= link_to 'Best answer', best_question_answer_path(question, answer),
+                class: 'best-answer-link',
+                method: :patch, remote: true,
+                data: { answer_id: answer.id }
 
 = form_with model: [question, answer], local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
   = f.label :body, 'Your answer'

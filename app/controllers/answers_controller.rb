@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
 
   before_action :authenticate_user!, only: [:create]
-  before_action :answer, only: [:update]
+  before_action :answer, only: [:update, :best]
 
   def create
     @answer = question.answers.create(answer_params.merge(author: current_user))
@@ -18,6 +18,10 @@ class AnswersController < ApplicationController
       flash[:notice] = 'Your answer successfully deleted.'
       @question = @answer.question
     end
+  end
+
+  def best
+    @answer.mark_as_best if current_user.author_of?(question)
   end
 
   private
