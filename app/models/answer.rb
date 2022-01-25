@@ -9,9 +9,9 @@ class Answer < ApplicationRecord
 
   def mark_as_best
     transaction do
-			question.answers.update_all(best: false)
-			update(best: true)
-		end
+      question.answers.update_all(best: false)
+      update(best: true)
+    end
   end
   
 end
