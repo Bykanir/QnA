@@ -10,7 +10,7 @@ feature 'User can edit question', %q{
   given!(:author) { create(:user) }
   given!(:question) { create(:question, author: author) }
 
-  describe 'Authenticated user' do
+  describe 'Authenticated user', js: true do
     background do
       sign_in(author)
       visit question_path(question)
@@ -18,7 +18,7 @@ feature 'User can edit question', %q{
       click_on 'Edit question'
     end
 
-    scenario 'edits his question', js: true do
+    scenario 'edits his question' do
       within '.question' do
         fill_in 'Your question', with: 'Edited question'
         click_on 'Save'
@@ -29,12 +29,24 @@ feature 'User can edit question', %q{
       end
     end
 
-    scenario 'edits his question with errors', js: true do
+    scenario 'edits his question with errors' do
       within '.question' do
         fill_in 'Your question',	with: ''
         click_on 'Save'
 
         expect(page).to have_content "Body can't be blank"
+       end
+    end
+
+    scenario 'edits a question with attached file' do
+      within '.question' do
+        fill_in 'Your question',	with: 'Edited question'
+
+        attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+        click_on 'Save'
+  
+        expect(page).to have_link 'rails_helper.rb'
+        expect(page).to have_link 'spec_helper.rb'
        end
     end
   end
