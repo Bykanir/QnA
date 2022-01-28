@@ -13,6 +13,7 @@ feature 'User can edit question', %q{
   describe 'Authenticated user', js: true do
     background do
       sign_in(author)
+      add_file(question)
       visit question_path(question)
 
       click_on 'Edit question'
@@ -48,6 +49,19 @@ feature 'User can edit question', %q{
         expect(page).to have_link 'rails_helper.rb'
         expect(page).to have_link 'spec_helper.rb'
        end
+    end
+
+    scenario 'delete attached question file' do
+      within '.question' do
+        fill_in 'Your question',	with: 'Edited question'
+        expect(page).to have_link 'rails_helper.rb'
+
+        click_on 'Delete file'
+
+        expect(page).to_not have_link 'rails_helper.rb'
+      end
+
+      expect(page).to have_content 'File deleted'
     end
   end
 
