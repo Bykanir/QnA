@@ -1,5 +1,11 @@
 = render 'form'
 
+.links
+  p Links:
+  ul
+    - question.links.each do |link|
+      li= link_to link.name, link.url
+
 .notice
 h3 Answers:
 .answers
