@@ -12,7 +12,6 @@ feature 'User can add links to answer', %q{
 
   scenario 'User adds link when give an answer', js: true do
     sign_in(user)
-
     visit question_path(question)
 
     fill_in 'Body', with: 'My answer'
@@ -29,7 +28,6 @@ feature 'User can add links to answer', %q{
 
   scenario 'User adds invalid link when give an answer', js: true do
     sign_in(user)
-
     visit question_path(question)
 
     fill_in 'Body', with: 'My answer'
@@ -41,6 +39,22 @@ feature 'User can add links to answer', %q{
 
     within '.answers' do
       expect(page).to have_content 'Links url invalid'
+    end
+  end
+
+  scenario 'User adds gist link when give an answer', js: true do
+    sign_in(user)
+    visit question_path(question)
+
+    fill_in 'Body', with: 'My answer'
+
+    fill_in 'Link name', with: 'My gist'
+    fill_in 'Url', with: gist_url
+
+    click_on 'Send'
+
+    within '.answers' do
+      expect(page).to have_content 'Hello, WORLD!'
     end
   end
 
