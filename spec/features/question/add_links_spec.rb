@@ -24,4 +24,19 @@ feature 'User can add links to question', %q{
     expect(page).to have_link 'My gist', href: gist_url
   end
 
+  scenario 'User adds link when asks question' do
+    sign_in(user)
+    visit new_question_path
+
+    fill_in 'Title', with: 'Test question'
+    fill_in 'Body', with: 'Text text text'
+
+    fill_in 'Link name', with: 'My gist'
+    fill_in 'Url', with: 'gist_url'
+
+    click_on 'Ask'
+
+    expect(page).to have_content 'Links url invalid'
+  end
+
 end
