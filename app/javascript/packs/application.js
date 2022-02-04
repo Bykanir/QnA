@@ -10,6 +10,9 @@ import "channels"
 import '../channels/answers'
 import '../channels/question'
 
+require("jquery")
+require("@nathanvda/cocoon")
+
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
