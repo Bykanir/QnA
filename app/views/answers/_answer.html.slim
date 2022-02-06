@@ -4,9 +4,15 @@ div id="answer-#{answer.id}"
     p Links:
     ul
       - answer.links.each do |link|
-        li= link_to link.name, link.url
-        - if link.gist?
-          p= link.gist
+        div class="link-#{link.id}"
+          li= link_to link.name, link.url
+          - if link.gist?
+            p= link.gist
+          - if current_user&.author_of?(link.linkable)
+            p= link_to 'Delete link', link_path(link),
+                        class: 'delete-link-link',
+                        method: :delete,
+                        remote: true
 
   - if answer.files.attached?
     - answer.files.each do |file|
