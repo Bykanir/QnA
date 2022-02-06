@@ -63,6 +63,19 @@ feature 'User can edit question', %q{
 
       expect(page).to have_content 'File deleted'
     end
+
+    scenario 'adds link' do
+      within '.question' do
+        click_on 'Add link'
+
+        fill_in 'Link name', with: 'Google'
+        fill_in 'Url', with: 'https://www.google.com/'
+
+        click_on 'Save'
+
+        expect(page).to have_link 'Google'
+      end
+    end
   end
 
   scenario 'Unauthenticated user can not edit question', js: true do

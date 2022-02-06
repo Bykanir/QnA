@@ -70,6 +70,20 @@ feature 'User can edit answer', %q{
 
       expect(page).to have_content 'File deleted'
     end
+
+    scenario 'adds link' do
+      within '.answers' do
+        click_on 'Add link'
+
+        fill_in 'Your answer',	with: 'Edited answer'
+        fill_in 'Link name', with: 'Google'
+        fill_in 'Url', with: 'https://www.google.com/'
+
+        click_on 'Save'
+
+        expect(page).to have_link 'Google'
+      end
+    end
   end
 
   scenario "tries to edit other user's question", js: true do
