@@ -21,6 +21,9 @@
                     class: 'delete-link-link',
                     method: :delete,
                     remote: true
+  - if question.reward.present?
+    .reward
+      p= question.reward.title
 
   - if current_user&.author_of?(question)
     = link_to  'Edit question', '#', class: 'edit-question-link', data: { question_id: question.id }
