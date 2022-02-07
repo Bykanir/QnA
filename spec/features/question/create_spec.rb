@@ -48,7 +48,7 @@ feature 'User can create question', %q{
       fill_in 'Body', with: 'text text text'
 
       within '.reward' do
-        fill_in 'Title', with: 'Reward for test question'
+        fill_in 'Reward title', with: 'Reward for test question'
         attach_file 'Image', "#{Rails.root}/app/assets/images/reward.png"
       end
 

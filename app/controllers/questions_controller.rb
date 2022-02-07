@@ -13,6 +13,7 @@ class QuestionsController < ApplicationController
 
   def new
     question.links.new
+    question.reward ||= Reward.new
   end
 
   def edit; end
