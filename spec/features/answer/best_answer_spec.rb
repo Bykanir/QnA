@@ -7,6 +7,7 @@ feature 'Author can choice best answer' do
   given!(:question) { create(:question, author: author) }
   given!(:answer_1) { create(:answer, question: question, author: author) }
   given!(:answer_2) { create(:answer, question: question, author: user) }
+  given(:reward) { create(:reward, question: question, image: image) }
   
   scenario 'Author choice only 1 best answer', js: true do
     sign_in(author) 

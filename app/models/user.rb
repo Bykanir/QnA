@@ -12,4 +12,9 @@ class User < ApplicationRecord
   def author_of?(obj)
     self.id == obj.author_id
   end
+
+  def awarding(reward)
+    rewards << reward
+  end
+  
 end

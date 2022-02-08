@@ -15,6 +15,7 @@ RSpec.describe Answer, type: :model do
     let(:question) { create(:question, author: author) }
     let(:answer_1) { create(:answer, question: question, author: author, best: false) }
     let(:answer_2) { create(:answer, question: question, author: author, best: false) }
+    let!(:reward) { create(:reward, question: question) }
 
     before { answer_1.mark_as_best }
 

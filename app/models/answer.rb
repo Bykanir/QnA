@@ -16,6 +16,7 @@ class Answer < ApplicationRecord
   def mark_as_best
     transaction do
       question.answers.update_all(best: false)
+      self.author.awarding(question.reward) if question.reward.present?
       update(best: true)
     end
   end

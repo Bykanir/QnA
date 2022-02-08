@@ -5,6 +5,7 @@ RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question, author: author) }
   let!(:answer) { create(:answer, question: question, author: author) }
+  let!(:reward) { create(:reward, question: question) }
 
   describe 'POST #create' do
     before { login(author) }

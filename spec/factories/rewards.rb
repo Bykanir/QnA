@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :reward do
-    reward_title { "MyString" }
+    title { 'Reward for test question' }
   end
 end
