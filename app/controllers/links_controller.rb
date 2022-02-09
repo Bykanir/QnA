@@ -1,5 +1,6 @@
-class LinksController < ApplicationController
+# frozen_string_literal: true
 
+class LinksController < ApplicationController
   before_action :find_link
 
   def destroy
@@ -14,5 +15,4 @@ class LinksController < ApplicationController
   def find_link
     @link = Link.find(params[:id])
   end
-
 end

@@ -1,5 +1,6 @@
-class Answer < ApplicationRecord
+# frozen_string_literal: true
 
+class Answer < ApplicationRecord
   has_many :links, dependent: :destroy, as: :linkable
 
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
@@ -16,8 +17,8 @@ class Answer < ApplicationRecord
   def mark_as_best
     transaction do
       question.answers.update_all(best: false)
+      author.awarding(question.reward) if question.reward.present?
       update(best: true)
     end
   end
-  
 end

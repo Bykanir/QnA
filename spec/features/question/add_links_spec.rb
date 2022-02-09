@@ -1,11 +1,12 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature 'User can add links to question', %q{
+feature 'User can add links to question', "
   In order to provide additional info to my question
   As an question's author
   I'd like to be able to add links
-} do
-
+" do
   given(:user) { create(:user) }
   given(:gist_url) { 'https://gist.github.com/Bykanir/04b22021b0ec43dd8576e9a436e2c4b3' }
 
@@ -53,5 +54,4 @@ feature 'User can add links to question', %q{
 
     expect(page).to have_content 'Hello, WORLD!'
   end
-
 end

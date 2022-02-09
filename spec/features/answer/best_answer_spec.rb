@@ -1,15 +1,17 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 feature 'Author can choice best answer' do
-
   given!(:author) { create(:user) }
   given!(:user) { create(:user) }
   given!(:question) { create(:question, author: author) }
   given!(:answer_1) { create(:answer, question: question, author: author) }
   given!(:answer_2) { create(:answer, question: question, author: user) }
-  
+  given(:reward) { create(:reward, question: question, image: image) }
+
   scenario 'Author choice only 1 best answer', js: true do
-    sign_in(author) 
+    sign_in(author)
 
     visit question_path(question)
 
@@ -24,7 +26,7 @@ feature 'Author can choice best answer' do
     sign_in(author)
 
     visit question_path(question)
-    
+
     within("#answer-#{answer_2.id}") do
       click_on 'Best answer'
 
@@ -33,7 +35,7 @@ feature 'Author can choice best answer' do
   end
 
   scenario 'Author choice another best answer', js: true do
-    sign_in(author) 
+    sign_in(author)
 
     visit question_path(question)
 
@@ -57,5 +59,4 @@ feature 'Author can choice best answer' do
 
     expect(page).to_not have_button 'Best answer'
   end
-
 end

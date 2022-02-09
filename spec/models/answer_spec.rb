@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Answer, type: :model do
@@ -15,6 +17,7 @@ RSpec.describe Answer, type: :model do
     let(:question) { create(:question, author: author) }
     let(:answer_1) { create(:answer, question: question, author: author, best: false) }
     let(:answer_2) { create(:answer, question: question, author: author, best: false) }
+    let!(:reward) { create(:reward, question: question) }
 
     before { answer_1.mark_as_best }
 
@@ -32,7 +35,6 @@ RSpec.describe Answer, type: :model do
   end
 
   it 'have many attached files' do
-    expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)  
+    expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
   end
-  
 end

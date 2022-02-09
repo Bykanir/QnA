@@ -1,11 +1,12 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature 'User can sign up', %q{
+feature 'User can sign up', "
   In order to ask questions
   As an unregistered user
   I'd like to be able to sign up
-} do
-
+" do
   given(:user) { create(:user) }
 
   background { visit new_user_registration_path }
@@ -55,7 +56,4 @@ feature 'User can sign up', %q{
 
     expect(page).to have_content "Password confirmation doesn't match Password"
   end
-  
 end
-
-

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe LinksController, type: :controller do
@@ -17,7 +19,7 @@ RSpec.describe LinksController, type: :controller do
       end
 
       it 'delete link in answer' do
-        expect { delete :destroy, params: { id: answer_link }, format: :js }.to change(Link , :count).by(-1)
+        expect { delete :destroy, params: { id: answer_link }, format: :js }.to change(Link, :count).by(-1)
       end
 
       it 'render destroy' do
@@ -38,5 +40,4 @@ RSpec.describe LinksController, type: :controller do
       end
     end
   end
-
 end

@@ -1,14 +1,15 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 feature 'Authenticated user can create answer' do
-
   given(:user) { create(:user) }
   given!(:question) { create(:question, author: user) }
 
-  describe "Authenticated user", js: true do
+  describe 'Authenticated user', js: true do
     background do
       sign_in(user)
-  
+
       visit question_path(question)
     end
 
@@ -24,7 +25,7 @@ feature 'Authenticated user can create answer' do
 
     scenario 'answer the question with errors' do
       click_on 'Send'
-      
+
       expect(page).to have_content "Body can't be blank"
     end
 
@@ -38,9 +39,8 @@ feature 'Authenticated user can create answer' do
       expect(page).to have_link 'spec_helper.rb'
     end
   end
-  
+
   scenario 'Unauthenticated user tries to answer a question' do
     expect(page).to_not have_button 'Send'
   end
-
 end

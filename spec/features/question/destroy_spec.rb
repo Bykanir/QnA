@@ -1,11 +1,12 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 feature 'User can delete their question' do
-
   given(:author) { create(:user) }
   given(:user) { create(:user) }
   given!(:question) { create(:question, author: author) }
-  
+
   scenario 'Author delete their question' do
     sign_in(author)
 
@@ -32,5 +33,4 @@ feature 'User can delete their question' do
 
     expect(page).to_not have_link 'Delete question'
   end
-
 end

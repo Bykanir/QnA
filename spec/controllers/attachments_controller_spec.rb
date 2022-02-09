@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe AttachmentsController, type: :controller do
@@ -14,13 +16,17 @@ RSpec.describe AttachmentsController, type: :controller do
       before { login(author) }
 
       it 'delete file in question' do
-        expect { delete :destroy, params: { id: question.files.first },
-                        format: :js }.to change(question.files, :count).by(-1)
+        expect do
+          delete :destroy, params: { id: question.files.first },
+                           format: :js
+        end.to change(question.files, :count).by(-1)
       end
 
       it 'delete file in answer' do
-        expect { delete :destroy, params: { id: answer.files.first },
-                        format: :js }.to change(answer.files, :count).by(-1)
+        expect do
+          delete :destroy, params: { id: answer.files.first },
+                           format: :js
+        end.to change(answer.files, :count).by(-1)
       end
 
       it 'render destroy' do
@@ -33,15 +39,18 @@ RSpec.describe AttachmentsController, type: :controller do
       before { login(user) }
 
       it 'delete file in question' do
-        expect { delete :destroy, params: { id: question.files.first },
-                        format: :js }.to_not change(question.files, :count)
+        expect do
+          delete :destroy, params: { id: question.files.first },
+                           format: :js
+        end.to_not change(question.files, :count)
       end
 
       it 'delete file in answer' do
-        expect { delete :destroy, params: { id: answer.files.first },
-                        format: :js }.to_not change(answer.files, :count)
+        expect do
+          delete :destroy, params: { id: answer.files.first },
+                           format: :js
+        end.to_not change(answer.files, :count)
       end
     end
   end
-
 end

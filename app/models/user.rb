@@ -1,15 +1,20 @@
-class User < ApplicationRecord
+# frozen_string_literal: true
 
-  has_many :answers, class_name:'Answer', foreign_key: 'author_id'
-  has_many :questions, class_name:'Question', foreign_key: 'author_id'
+class User < ApplicationRecord
+  has_many :answers, class_name: 'Answer', foreign_key: 'author_id'
+  has_many :questions, class_name: 'Question', foreign_key: 'author_id'
   has_many :rewards
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-         
+
   def author_of?(obj)
-    self.id == obj.author_id
+    id == obj.author_id
+  end
+
+  def awarding(reward)
+    rewards << reward
   end
 end

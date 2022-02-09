@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
@@ -5,15 +7,19 @@ RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question, author: author) }
   let!(:answer) { create(:answer, question: question, author: author) }
+  let!(:reward) { create(:reward, question: question) }
 
   describe 'POST #create' do
     before { login(author) }
-    
+
     context 'with valid attributes' do
       it 'saves a new answer in the database' do
-        expect { post :create, params: { question_id: question, answer: attributes_for(:answer, author: author) }, format: :js }.to change(question.answers, :count).by(1)
+        expect do
+          post :create, params: { question_id: question, answer: attributes_for(:answer, author: author) },
+                        format: :js
+        end.to change(question.answers, :count).by(1)
       end
-      
+
       it 'renders create template' do
         post :create, params: { question_id: question, answer: attributes_for(:answer), format: :js }
         expect(response).to render_template :create
@@ -22,7 +28,10 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'with invalid attributes' do
       it 'does not save the answer' do
-        expect { post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }, format: :js }.to_not change(Answer, :count)
+        expect do
+          post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) },
+                        format: :js
+        end.to_not change(Answer, :count)
       end
 
       it 'renders create template' do
@@ -37,9 +46,11 @@ RSpec.describe AnswersController, type: :controller do
       before { login(author) }
 
       it 'delete the answer' do
-        expect { delete :destroy, params: { question_id: question, id: answer}, format: :js }.to change(Answer, :count).by(-1)
+        expect do
+          delete :destroy, params: { question_id: question, id: answer }, format: :js
+        end.to change(Answer, :count).by(-1)
       end
-  
+
       it 'redirects to show' do
         delete :destroy, params: { question_id: question, id: answer }, format: :js
         expect(response).to render_template :destroy
@@ -50,7 +61,9 @@ RSpec.describe AnswersController, type: :controller do
       before { login(user) }
 
       it 'delete the answer' do
-        expect { delete :destroy, params: { question_id: question, id: answer}, format: :js }.to_not change(Answer, :count)
+        expect do
+          delete :destroy, params: { question_id: question, id: answer }, format: :js
+        end.to_not change(Answer, :count)
       end
     end
   end
@@ -74,12 +87,14 @@ RSpec.describe AnswersController, type: :controller do
     context 'with invalid attributes' do
       it 'does not change answer attributes' do
         expect do
-          patch :update, params: { question_id: question, id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
+          patch :update, params: { question_id: question, id: answer, answer: attributes_for(:answer, :invalid) },
+                         format: :js
         end.to_not change(answer, :body)
       end
 
       it 'renders update view' do
-        patch :update, params: { question_id: question, id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
+        patch :update, params: { question_id: question, id: answer, answer: attributes_for(:answer, :invalid) },
+                       format: :js
         expect(response).to render_template :update
       end
     end
@@ -89,15 +104,14 @@ RSpec.describe AnswersController, type: :controller do
     before { login(author) }
 
     it 'author mark answer best' do
-      patch :best, params: { question_id: question, id: answer, format: :js}
+      patch :best, params: { question_id: question, id: answer, format: :js }
       answer.reload
       expect(answer).to be_best
     end
 
     it 'renders best view' do
-      patch :best, params: { question_id: question, id: answer, format: :js}
+      patch :best, params: { question_id: question, id: answer, format: :js }
       expect(response).to render_template :best
     end
   end
-    
 end

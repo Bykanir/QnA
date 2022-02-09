@@ -1,0 +1,5 @@
+p Your reward:
+- @rewards.each do |reward|
+  = reward.title
+  p= image_tag(reward.image, size: '100x100')
+  = reward.question.title

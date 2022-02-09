@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddForeignKeyForUserQuestions < ActiveRecord::Migration[6.1]
   def change
     add_reference(:questions, :author, null: false, foreign_key: { to_table: :users })

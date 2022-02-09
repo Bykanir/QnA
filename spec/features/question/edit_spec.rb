@@ -1,11 +1,12 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature 'User can edit question', %q{
+feature 'User can edit question', "
   In order to correct mistakes
   As an authir of question
   I'd like to be able to edit my question
-} do
-
+" do
   given!(:user) { create(:user) }
   given!(:author) { create(:user) }
   given!(:question) { create(:question, author: author) }
@@ -23,7 +24,7 @@ feature 'User can edit question', %q{
       within '.question' do
         fill_in 'Your question', with: 'Edited question'
         click_on 'Save'
-  
+
         expect(page).to_not have_content question.body
         expect(page).to have_content 'Edited question'
         expect(page).to_not have_selector 'textarea'
@@ -36,7 +37,7 @@ feature 'User can edit question', %q{
         click_on 'Save'
 
         expect(page).to have_content "Body can't be blank"
-       end
+      end
     end
 
     scenario 'edits a question with attached file' do
@@ -45,10 +46,10 @@ feature 'User can edit question', %q{
 
         attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
         click_on 'Save'
-  
+
         expect(page).to have_link 'rails_helper.rb'
         expect(page).to have_link 'spec_helper.rb'
-       end
+      end
     end
 
     scenario 'delete attached question file' do
@@ -80,15 +81,14 @@ feature 'User can edit question', %q{
 
   scenario 'Unauthenticated user can not edit question', js: true do
     visit question_path(question)
-    
+
     expect(page).to_not have_link 'Edit answer'
   end
-  
+
   scenario "tries to edit other user's question", js: true do
     sign_in(user)
     visit question_path(question)
 
     expect(page).to_not have_button 'Edit answer'
   end
-  
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
@@ -19,7 +21,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #show' do
-    before  { get :show, params: { id: question } }
+    before { get :show, params: { id: question } }
 
     it 'renders show view' do
       expect(response).to render_template :show
@@ -33,7 +35,7 @@ RSpec.describe QuestionsController, type: :controller do
       expect(assigns(:answer).links.first).to be_a_new(Link)
     end
   end
-  
+
   describe 'GET #new' do
     before { login(author) }
 
@@ -74,9 +76,11 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'with invalid attributes' do
       it 'does not save the question' do
-        expect { post :create, params: { question: attributes_for(:question, :invalid) } }.to_not change(Question, :count)
+        expect do
+          post :create, params: { question: attributes_for(:question, :invalid) }
+        end.to_not change(Question, :count)
       end
-      
+
       it 're-renders new view' do
         post :create, params: { question: attributes_for(:question, :invalid) }
         expect(response).to render_template :new
@@ -94,7 +98,7 @@ RSpec.describe QuestionsController, type: :controller do
       end
 
       it 'changes question attributes' do
-        patch :update, params: { id: question, question: { title: 'new title', body: 'new body'} }, format: :js
+        patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }, format: :js
         question.reload
 
         expect(question.title).to eq 'new title'
@@ -105,15 +109,15 @@ RSpec.describe QuestionsController, type: :controller do
         patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
         expect(response).to redirect_to question
       end
-    end 
-    
+    end
+
     context 'with invalid attributes' do
       before { patch :update, params: { id: question, question: attributes_for(:question, :invalid) }, format: :js }
-         
+
       it 'does not change question' do
         question.reload
 
-        expect(question.title).to eq "#{question.title}"
+        expect(question.title).to eq question.title.to_s
         expect(question.body).to eq 'MyText'
       end
 
@@ -133,9 +137,9 @@ RSpec.describe QuestionsController, type: :controller do
       it 'delete the question' do
         expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
       end
-  
+
       it 'redirects to index' do
-        delete :destroy, params: { id: question } 
+        delete :destroy, params: { id: question }
         expect(response).to redirect_to questions_path
       end
     end
@@ -148,5 +152,4 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
-
 end

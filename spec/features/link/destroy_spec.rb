@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 feature 'User can delete link for question or answer' do
-
   given(:author) { create(:user) }
   given(:user) { create(:user) }
   given!(:question) { create(:question, author: author) }

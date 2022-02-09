@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 feature 'User can delete their question' do
-
   given(:author) { create(:user) }
   given(:user) { create(:user) }
   given!(:question) { create(:question, author: author) }
@@ -11,7 +12,7 @@ feature 'User can delete their question' do
     sign_in(author)
 
     visit question_path(question)
-    
+
     expect(page).to have_content 'MyAnswer'
 
     click_on 'Delete answer'
@@ -33,5 +34,4 @@ feature 'User can delete their question' do
 
     expect(page).to_not have_link 'Delete answer'
   end
-
 end

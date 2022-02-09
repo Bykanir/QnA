@@ -1,7 +1,8 @@
-class AnswersController < ApplicationController
+# frozen_string_literal: true
 
+class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [:create]
-  before_action :answer, only: [:update, :best]
+  before_action :answer, only: %i[update best]
 
   def create
     @answer = question.answers.create(answer_params.merge(author: current_user))
@@ -33,12 +34,11 @@ class AnswersController < ApplicationController
   helper_method :question
 
   def answer_params
-    params.require(:answer).permit(:body, files:[],
-                                   links_attributes: [:name, :url])
+    params.require(:answer).permit(:body, files: [],
+                                          links_attributes: %i[name url])
   end
 
   def answer
     @answer ||= Answer.with_attached_files.find(params[:id])
   end
-
 end
