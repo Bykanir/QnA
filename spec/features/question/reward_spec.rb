@@ -3,6 +3,7 @@
 require 'rails_helper'
 
 feature 'User can get reward for the best answer' do
+
   given!(:author) { create(:user) }
 
   scenario 'User get reward', js: true do

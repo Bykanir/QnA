@@ -17,4 +17,9 @@ class User < ApplicationRecord
   def awarding(reward)
     rewards << reward
   end
+
+  def awarding(reward)
+    rewards << reward
+  end
+  
 end
