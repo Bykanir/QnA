@@ -17,7 +17,7 @@ feature 'Author can choice best answer' do
 
     within("#answer-#{answer_1.id}") do
       click_on 'Best answer'
-
+      save_and_open_page
       expect(page).to_not have_button 'Best answer'
     end
   end

@@ -4,6 +4,7 @@ class User < ApplicationRecord
   has_many :answers, class_name: 'Answer', foreign_key: 'author_id'
   has_many :questions, class_name: 'Question', foreign_key: 'author_id'
   has_many :rewards
+  has_many :votes
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -21,5 +22,8 @@ class User < ApplicationRecord
   def awarding(reward)
     rewards << reward
   end
-  
+
+  def voted?(voting)
+    votes.exists?(votable: voting)
+  end
 end

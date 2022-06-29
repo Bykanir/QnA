@@ -1,0 +1,8 @@
+div class = "#{resource.id}"
+  .score
+    = "Rating: #{resource.all_votes}"
+  .voting
+    - unless current_user&.author_of?(resource)
+      = link_to '+', polymorphic_path(resource, action: :voted_for), remote: true, method: :patch, data: { type: :json }
+      = link_to '-', polymorphic_path(resource, action: :voted_against), remote: true, method: :patch, data: {  type: :json }
+      = link_to 'Revote',polymorphic_path(resource, action: :revote), remote: true, method: :delete, data: { type: :json }

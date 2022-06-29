@@ -8,6 +8,10 @@
         p= link_to 'Delete file', attachment_path(file),
                     class: 'delete-attachment-link',
                     method: :delete, remote: true
+  
+  .vote-question
+    = render 'shared/votes', resource: question 
+
   .links
     p Links:
     ul

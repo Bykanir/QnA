@@ -1,5 +1,9 @@
 div id="answer-#{answer.id}"
   p= answer.body
+  
+  .vote-answer
+    = render 'shared/votes', resource: answer
+
   .links
     p Links:
     ul
@@ -24,18 +28,18 @@ div id="answer-#{answer.id}"
 
   - if current_user&.author_of?(answer) && answer.persisted?
     = link_to  'Edit answer', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
-    p= link_to 'Delete answer', question_answer_path(question, answer), 
+    p= link_to 'Delete answer', answer_path(answer), 
                 class: 'delete-answer-link', 
                 method: :delete, remote: true, 
                 data: { answer_id: answer.id }
 
   - if !answer.best? && current_user&.author_of?(question)
-    p= link_to 'Best answer', best_question_answer_path(question, answer),
+    p= link_to 'Best answer', best_answer_path(question, answer),
                 class: 'best-answer-link',
                 method: :patch, remote: true,
                 data: { answer_id: answer.id }
 
-= form_with model: [question, answer], local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
+= form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
   = f.label :body, 'Your answer'
   = f.text_area :body
 

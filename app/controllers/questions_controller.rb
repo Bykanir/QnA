@@ -2,6 +2,8 @@
 
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
+  
+  include Voted
 
   def index
     @questions = Question.all
