@@ -10,6 +10,7 @@ import "channels"
 import '../channels/answers'
 import '../channels/question'
 import '../channels/votes'
+import '../channels/questions_channel'
 
 require("jquery")
 require("@nathanvda/cocoon")
