@@ -1,0 +1,44 @@
+div id="answer-#{answer.id}"
+  p= answer.body
+
+  div class = "#{answer.id}"
+    .score
+      = "Rating: #{answer.all_votes}"
+    .voting
+      = link_to '+', polymorphic_path(answer, action: :voted_for), remote: true, method: :patch, data: { type: :json }
+      = link_to '-', polymorphic_path(answer, action: :voted_against), remote: true, method: :patch, data: {  type: :json }
+      = link_to 'Revote',polymorphic_path(answer, action: :revote), remote: true, method: :delete, data: { type: :json }
+  .links
+    p Links:
+    ul
+      - answer.links.each do |link|
+        div class="link-#{link.id}"
+          li= link_to link.name, link.url
+          - if link.gist?
+            p= link.gist
+          - if current_user&.author_of?(link.linkable)
+            p= link_to 'Delete link', link_path(link),
+                        class: 'delete-link-link',
+                        method: :delete,
+                        remote: true
+    
+  - if answer.files.attached?
+    - answer.files.each do |file|
+      div class="attachment-#{file.id}"
+        = link_to file.filename.to_s, url_for(file)
+        p= link_to 'Delete file', attachment_path(file),
+                class: 'delete-attachment-link',
+                method: :delete, remote: true
+
+= form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
+  = f.label :body, 'Your answer'
+  = f.text_area :body
+
+  = f.label :files
+  = f.file_field :files, multiple: true, direct_upload: true
+
+  = f.fields_for :links do |link|
+  .links
+    = link_to_add_association 'Add link', f, :links, partial: 'questions/link_fields'
+
+  = f.submit 'Save'

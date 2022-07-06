@@ -4,6 +4,8 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [:create]
   before_action :answer, only: %i[update best]
 
+  after_action :publish_answer, only: [:create]
+
   include Voted
   
   def create
@@ -43,4 +45,17 @@ class AnswersController < ApplicationController
   def answer
     @answer ||= Answer.with_attached_files.find(params[:id])
   end
+
+  def publish_answer
+    return if @answer.errors.any?
+    ActionCable.server.broadcast(
+      'answers',
+      { 
+        author_id: current_user.id, 
+        template: ApplicationController.render( partial: 'answers/simple_answer',
+                                                locals: { answer: @answer } )
+      }
+    )
+  end
+  
 end

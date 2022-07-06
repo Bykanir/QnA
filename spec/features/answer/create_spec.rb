@@ -4,6 +4,7 @@ require 'rails_helper'
 
 feature 'Authenticated user can create answer' do
   given(:user) { create(:user) }
+  given(:another_user) { create(:user) }
   given!(:question) { create(:question, author: user) }
 
   describe 'Authenticated user', js: true do
@@ -42,5 +43,36 @@ feature 'Authenticated user can create answer' do
 
   scenario 'Unauthenticated user tries to answer a question' do
     expect(page).to_not have_button 'Send'
+  end
+
+  describe 'multiple sessions', js: true do
+    scenario "answer appears on another user's pages" do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit question_path(question)
+      end
+
+      Capybara.using_session('another_user') do
+        sign_in(another_user)
+        visit question_path(question)
+
+        within '.answers' do
+          expect(page).to_not have_content 'My new answer'
+        end
+      end
+
+      Capybara.using_session('user') do
+        fill_in 'Body', with: 'My new answer'
+        click_on 'Send'
+        
+        expect(page).to have_content 'My new answer'
+      end
+
+      Capybara.using_session('another_user') do
+        within '.answers' do
+          expect(page).to have_content 'My new answer'
+        end
+      end
+    end
   end
 end
