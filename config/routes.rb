@@ -10,10 +10,14 @@ Rails.application.routes.draw do
     end
   end
 
+  concern :commentable do
+    resource :comments, shallow: true
+  end
+
   root to: 'questions#index'
 
-  resources :questions, concerns: :votable do
-    resources :answers, concerns: :votable, shallow: true, only: %i[create update destroy] do
+  resources :questions, concerns: [:votable, :commentable] do
+    resources :answers, concerns: [:votable, :commentable], shallow: true, only: %i[create update destroy] do
       patch :best, on: :member
     end
   end

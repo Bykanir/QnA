@@ -51,3 +51,8 @@
       = link_to_add_association 'Add link', f, :links, partial: 'link_fields'
 
     = f.submit 'Save'
+
+
+  .comments-question
+    = render question.comments
+    = render 'comments/form', resource: question

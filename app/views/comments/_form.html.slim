@@ -1,0 +1,7 @@
+.comments-create
+  = form_with model: [resource, Comment.new], local: true do |f|
+
+    = f.label :body, 'Comment'
+    = f.text_area :body
+
+    = f.submit 'Send'
