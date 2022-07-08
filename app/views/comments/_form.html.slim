@@ -1,5 +1,5 @@
 .comments-create
-  = form_with model: [resource, Comment.new], local: true do |f|
+  = form_with model: [resource, Comment.new], local: false do |f|
 
     = f.label :body, 'Comment'
     = f.text_area :body

@@ -2,6 +2,8 @@ class CommentsController < ApplicationController
   before_action :authenticate_user!, only: [:create]
   before_action :find_resource, only: [:create]
 
+  after_action :publish_comment, only: [:create]
+
   def create
     @comment = @resource.comments.create(comment_params)
     @comment.user = current_user
@@ -18,4 +20,18 @@ class CommentsController < ApplicationController
   def comment_params
     params.require(:comment).permit(:body)
   end
-end
+
+  def publish_comment
+    return if @comment.errors.any?
+
+    ActionCable.server.broadcast(
+      'comments',
+        {
+          type: @comment.commentable_type,
+          id: @comment.commentable_id,
+          template: ApplicationController.render( partial: 'comments/comment',
+                                                  locals: { comment: @comment } )
+        }
+    )
+  end
+ end
