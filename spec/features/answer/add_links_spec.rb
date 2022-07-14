@@ -15,12 +15,14 @@ feature 'User can add links to answer', "
     sign_in(user)
     visit question_path(question)
 
-    fill_in 'Body', with: 'My answer'
+    within '.new-answer' do
+      fill_in 'Body', with: 'My answer'
 
-    fill_in 'Link name', with: 'My gist'
-    fill_in 'Url', with: gist_url
+      fill_in 'Link name', with: 'My gist'
+      fill_in 'Url', with: gist_url
 
-    click_on 'Send'
+      click_on 'Send'
+    end
 
     within '.answers' do
       expect(page).to have_link 'My gist', href: gist_url
@@ -31,12 +33,14 @@ feature 'User can add links to answer', "
     sign_in(user)
     visit question_path(question)
 
-    fill_in 'Body', with: 'My answer'
+    within '.new-answer' do
+      fill_in 'Body', with: 'My answer'
 
-    fill_in 'Link name', with: 'My gist'
-    fill_in 'Url', with: 'gist_url'
-
-    click_on 'Send'
+      fill_in 'Link name', with: 'My gist'
+      fill_in 'Url', with: 'gist_url'
+  
+      click_on 'Send'
+    end
 
     within '.answers' do
       expect(page).to have_content 'Links url invalid'
@@ -47,12 +51,14 @@ feature 'User can add links to answer', "
     sign_in(user)
     visit question_path(question)
 
-    fill_in 'Body', with: 'My answer'
+    within '.new-answer' do
+      fill_in 'Body', with: 'My answer'
 
-    fill_in 'Link name', with: 'My gist'
-    fill_in 'Url', with: gist_url
+      fill_in 'Link name', with: 'My gist'
+      fill_in 'Url', with: gist_url
 
-    click_on 'Send'
+      click_on 'Send'
+    end
 
     within '.answers' do
       expect(page).to have_content 'Hello, WORLD!'

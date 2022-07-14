@@ -15,8 +15,10 @@ feature 'Authenticated user can create answer' do
     end
 
     scenario 'answer the question' do
-      fill_in 'Body', with: 'My new answer'
-      click_on 'Send'
+      within '.new-answer' do
+        fill_in 'Body', with: 'My new answer'
+        click_on 'Send'
+      end
 
       expect(current_path).to eq question_path(question)
       within '.answers' do
@@ -25,16 +27,20 @@ feature 'Authenticated user can create answer' do
     end
 
     scenario 'answer the question with errors' do
-      click_on 'Send'
+      within '.new-answer' do
+        click_on 'Send'
+      end
 
       expect(page).to have_content "Body can't be blank"
     end
 
     scenario 'asks a question with attached file' do
-      fill_in 'Body', with: 'My new answer'
+      within '.new-answer' do
+        fill_in 'Body', with: 'My new answer'
 
-      attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
-      click_on 'Send'
+        attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+        click_on 'Send'
+      end
 
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
@@ -62,8 +68,10 @@ feature 'Authenticated user can create answer' do
       end
 
       Capybara.using_session('user') do
-        fill_in 'Body', with: 'My new answer'
-        click_on 'Send'
+        within '.new-answer' do
+          fill_in 'Body', with: 'My new answer'
+          click_on 'Send' 
+        end
         
         expect(page).to have_content 'My new answer'
       end
