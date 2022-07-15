@@ -49,13 +49,17 @@ class AnswersController < ApplicationController
   def publish_answer
     return if @answer.errors.any?
     ActionCable.server.broadcast(
-      'answers',
+      "question_#{question.id}_answers",
       { 
         author_id: current_user.id, 
         template: ApplicationController.render( partial: 'answers/simple_answer',
                                                 locals: { answer: @answer } )
       }
     )
+  end
+
+  def gon_question_id
+    gon.question_id = @answer.question.id if question
   end
   
 end

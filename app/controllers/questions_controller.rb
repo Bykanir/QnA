@@ -2,6 +2,7 @@
 
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
+  before_action :gon_question_id, only: %i[show]
 
   after_action :publish_question, only: [:create]
   
@@ -64,12 +65,16 @@ class QuestionsController < ApplicationController
   def publish_question
     return if @question.errors.any?
     ActionCable.server.broadcast(
-      'questions', 
+      "questions_", 
       ApplicationController.render(
         partial: 'questions/question',
         locals: { question: @question }
       )
     )
+  end
+
+  def gon_question_id
+    gon.question_id = question.id if question
   end
   
 end
