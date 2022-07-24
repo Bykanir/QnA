@@ -6,11 +6,13 @@ class User < ApplicationRecord
   has_many :rewards
   has_many :votes
   has_many :comment
+  has_many :authorizations, dependent: :destroy
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable,
+         :omniauthable, omniauth_providers: [:github]
 
   def author_of?(obj)
     id == obj.author_id
@@ -26,5 +28,9 @@ class User < ApplicationRecord
 
   def voted?(voting)
     votes.exists?(votable: voting)
+  end
+
+  def self.find_for_oauth(auth)
+    FindForOauth.new(auth).call
   end
 end
