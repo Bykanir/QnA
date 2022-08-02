@@ -12,7 +12,7 @@ div id="answer-#{answer.id}"
           li= link_to link.name, link.url
           - if link.gist?
             p= link.gist
-          - if current_user&.author_of?(link.linkable)
+          - if can?(:destroy, Link)
             p= link_to 'Delete link', link_path(link),
                         class: 'delete-link-link',
                         method: :delete,
@@ -26,14 +26,15 @@ div id="answer-#{answer.id}"
                 class: 'delete-attachment-link',
                 method: :delete, remote: true
 
-  - if current_user&.author_of?(answer) && answer.persisted?
+  - if can?(:update, Answer) && answer.persisted?
     = link_to  'Edit answer', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+  - if can?(:destroy, Answer) && answer.persisted?
     p= link_to 'Delete answer', answer_path(answer), 
                 class: 'delete-answer-link', 
                 method: :delete, remote: true, 
                 data: { answer_id: answer.id }
 
-  - if !answer.best? && current_user&.author_of?(question)
+  - if !answer.best? && can?(:best, Answer)
     p= link_to 'Best answer', best_answer_path(question, answer),
                 class: 'best-answer-link',
                 method: :patch, remote: true,

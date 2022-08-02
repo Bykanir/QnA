@@ -27,5 +27,10 @@ class Ability
     guest_abilities
     can :create, [Question, Answer, Comment]
     can :update, [Question, Answer], author: user
+    can :destroy, [Question, Answer], author: user
+    can :best, Answer, question: { author: user }
+    can [:voted_for, :voted_against, :revote], [Question, Answer]
+    cannot [:voted_for, :voted_against, :revote], [Question, Answer], author: user
+    can :destroy, Link, linkable: { author: user }
   end
 end

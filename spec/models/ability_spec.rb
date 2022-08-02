@@ -31,6 +31,13 @@ describe Ability do
     let(:answer) { create(:answer, question: question, author: user) }
     let(:other_user_answer) { create(:answer, question: question, author: other_user) }
     
+    let(:comment_question) { create(:comment, commentable: question, author: user) }
+    let(:comment_answer) { create(:comment, commentable: answer, author: user) }
+
+    let(:link) { create(:link, linkable: question) }
+
+    let(:attachment) { create(:link, linkable: question) }
+
     it { should_not be_able_to :manage, :all }
     it { should be_able_to :read, :all }
 
@@ -44,5 +51,20 @@ describe Ability do
     it { should be_able_to :update, answer }
     it { should_not be_able_to :update, other_user_answer }
 
+    it { should be_able_to :destroy, question }
+    it { should_not be_able_to :destroy, other_user_question }
+
+    it { should be_able_to :destroy, answer }
+    it { should_not be_able_to :destroy, other_user_answer }
+
+    it { should be_able_to :best, answer }
+
+    it { should be_able_to [:voted_for, :voted_against, :revote], other_user_question }
+    it { should be_able_to [:voted_for, :voted_against, :revote], other_user_answer }
+
+    it { should_not be_able_to [:voted_for, :voted_against], question }
+    it { should_not be_able_to [:voted_for, :voted_against], answer }
+
+    it { should be_able_to :destroy, link }
   end
 end
