@@ -56,11 +56,11 @@ describe 'Profiles API', type: :request do
       end
 
       it 'returns list of users' do
-        expect(json['users'].size).to eq 2
+        expect(json.size).to eq 2
       end
 
       it 'returned list does not contain current user' do
-        expect(json['users']).to_not include(id: user.id)
+        expect(json).to_not include(id: user.id)
       end
     end
   end
