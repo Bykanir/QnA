@@ -6,6 +6,8 @@ module Api
       before_action :find_answer, only: %i[show update destroy]
       before_action :find_question, only: [:create]
 
+      authorize_resource
+
       def index
         @answers = Answer.all
         render json: @answers, each_serializer: AnswersSerializer
