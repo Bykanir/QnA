@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe CommentsController, type: :controller do
@@ -10,9 +12,9 @@ RSpec.describe CommentsController, type: :controller do
     context 'with valid attributes' do
       it 'save new comment' do
         expect do
-          post :create, params: { user_id: user, 
+          post :create, params: { user_id: user,
                                   question_id: question,
-                                  comment: attributes_for(:comment), 
+                                  comment: attributes_for(:comment),
                                   format: :js }
         end.to change(Comment, :count).by(1)
       end
@@ -21,9 +23,9 @@ RSpec.describe CommentsController, type: :controller do
     context 'with invalid attributes' do
       it 'dont save new comment' do
         expect do
-          post :create, params: { user_id: user, 
+          post :create, params: { user_id: user,
                                   question_id: question,
-                                  comment: attributes_for(:comment, body: nil), 
+                                  comment: attributes_for(:comment, body: nil),
                                   format: :js }
         end.to_not change(Comment, :count)
       end

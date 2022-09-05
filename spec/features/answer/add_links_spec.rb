@@ -38,7 +38,7 @@ feature 'User can add links to answer', "
 
       fill_in 'Link name', with: 'My gist'
       fill_in 'Url', with: 'gist_url'
-  
+
       click_on 'Send'
     end
 

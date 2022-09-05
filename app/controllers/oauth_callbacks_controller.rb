@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OauthCallbacksController < Devise::OmniauthCallbacksController
   def github
     oauth('GitHub')
@@ -18,5 +20,5 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
     else
       redirect_to root_path, alert: 'Something went wrong'
     end
-  end 
+  end
 end

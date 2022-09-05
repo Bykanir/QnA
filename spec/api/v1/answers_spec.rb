@@ -1,12 +1,16 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'Answers API', type: :request do
-  let(:headers) { { "CONTENT_TYPE" => "application/json",
-                    "ACCEPT" => 'application/json' } }
+  let(:headers) do
+    { 'CONTENT_TYPE' => 'application/json',
+      'ACCEPT' => 'application/json' }
+  end
   let(:resource) { Answer }
   let(:access_token) { create(:access_token) }
   let(:author) { create(:user) }
-  let!(:question) { create(:question, author: author)}
+  let!(:question) { create(:question, author: author) }
 
   describe 'GET /api/v1/answers' do
     let(:api_path) { api_v1_question_answers_path(question) }
@@ -88,7 +92,7 @@ describe 'Answers API', type: :request do
 
     context 'authorized' do
       let(:valid_attrs) { { body: 'Test answer body' } }
-      
+
       it_behaves_like 'API Create' do
         let(:invalid_attrs) { { title: '', body: '' } }
       end
@@ -113,7 +117,7 @@ describe 'Answers API', type: :request do
       end
     end
   end
-  
+
   describe 'DELETE /api/v1/answers/:id' do
     let(:answer) { create(:answer, question: question, author: author) }
     let(:api_path) { api_v1_answer_path(answer) }
@@ -128,5 +132,4 @@ describe 'Answers API', type: :request do
       end
     end
   end
-  
 end

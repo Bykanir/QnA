@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CommentsController < ApplicationController
   before_action :authenticate_user!, only: [:create]
   before_action :find_resource, only: [:create]
@@ -15,7 +17,7 @@ class CommentsController < ApplicationController
   private
 
   def find_resource
-    klass = [Question, Answer].detect { |klass| params["#{klass.name.underscore}_id"]}
+    klass = [Question, Answer].detect { |klass| params["#{klass.name.underscore}_id"] }
     @resource = klass.find(params["#{klass.name.underscore}_id"])
   end
 
@@ -28,12 +30,12 @@ class CommentsController < ApplicationController
 
     ActionCable.server.broadcast(
       'comments',
-        {
-          type: @comment.commentable_type,
-          id: @comment.commentable_id,
-          template: ApplicationController.render( partial: 'comments/comment',
-                                                  locals: { comment: @comment } )
-        }
+      {
+        type: @comment.commentable_type,
+        id: @comment.commentable_id,
+        template: ApplicationController.render(partial: 'comments/comment',
+                                               locals: { comment: @comment })
+      }
     )
   end
- end
+end

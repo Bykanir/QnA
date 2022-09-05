@@ -28,27 +28,27 @@ gem 'jbuilder', '~> 2.7'
 # gem 'image_processing', '~> 1.2'
 
 # Reduces boot times through caching; required in config/boot.rb
+gem 'active_model_serializers', '~> 0.10'
 gem 'aws-sdk-s3', require: false
 gem 'bootsnap', '>= 1.4.4', require: false
+gem 'cancancan'
+gem 'capybara-email'
 gem 'cocoon'
-gem 'devise'
-gem 'jquery-rails'
-gem 'octokit'
-gem 'slim-rails'
 gem 'coffee-rails'
-gem 'skim'
+gem 'devise'
+gem 'doorkeeper', '5.1.0'
 gem 'gon'
+gem 'jquery-rails'
+gem 'letter_opener'
+gem 'octokit'
+gem 'oj'
 gem 'omniauth'
 gem 'omniauth-github'
-gem 'omniauth-vkontakte'
 gem 'omniauth-google-oauth2'
-gem "omniauth-rails_csrf_protection"
-gem 'capybara-email'
-gem 'letter_opener'
-gem 'cancancan'
-gem 'doorkeeper', '5.1.0'
-gem 'active_model_serializers', '~> 0.10'
-gem 'oj'
+gem 'omniauth-rails_csrf_protection'
+gem 'omniauth-vkontakte'
+gem 'skim'
+gem 'slim-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -1,8 +1,10 @@
-module Voted 
+# frozen_string_literal: true
+
+module Voted
   extend ActiveSupport::Concern
 
   included do
-    before_action :set_votable, only: [:voted_for, :voted_against, :revote]
+    before_action :set_votable, only: %i[voted_for voted_against revote]
   end
 
   def voted_for
@@ -11,7 +13,7 @@ module Voted
     else
       @votable.vote_up(current_user)
       render_voting
-    end 
+    end
   end
 
   def voted_against
@@ -20,7 +22,7 @@ module Voted
     else
       @votable.vote_dawn(current_user)
       render_voting
-    end 
+    end
   end
 
   def revote
@@ -28,7 +30,7 @@ module Voted
     render_voting
   end
 
-  private 
+  private
 
   def model_klass
     controller_name.classify.constantize

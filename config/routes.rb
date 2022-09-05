@@ -17,8 +17,8 @@ Rails.application.routes.draw do
 
   root to: 'questions#index'
 
-  resources :questions, concerns: [:votable, :commentable] do
-    resources :answers, concerns: [:votable, :commentable], shallow: true, only: %i[create update destroy] do
+  resources :questions, concerns: %i[votable commentable] do
+    resources :answers, concerns: %i[votable commentable], shallow: true, only: %i[create update destroy] do
       patch :best, on: :member
     end
   end
@@ -33,8 +33,8 @@ Rails.application.routes.draw do
         get :me, on: :collection
       end
 
-      resources :questions, only: [:index, :show, :create, :update, :destroy] do
-        resources :answers, only: [:index, :show, :create, :update, :destroy], shallow: true
+      resources :questions, only: %i[index show create update destroy] do
+        resources :answers, only: %i[index show create update destroy], shallow: true
       end
     end
   end

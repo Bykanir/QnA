@@ -5,10 +5,10 @@ class QuestionsController < ApplicationController
   before_action :gon_question_id, only: %i[show]
 
   after_action :publish_question, only: [:create]
-  
+
   include Voted
 
-  authorize_resource 
+  authorize_resource
 
   def index
     @questions = Question.all
@@ -66,8 +66,9 @@ class QuestionsController < ApplicationController
 
   def publish_question
     return if @question.errors.any?
+
     ActionCable.server.broadcast(
-      "questions_", 
+      'questions_',
       ApplicationController.render(
         partial: 'questions/question',
         locals: { question: @question }
@@ -78,5 +79,4 @@ class QuestionsController < ApplicationController
   def gon_question_id
     gon.question_id = question.id if question
   end
-  
 end

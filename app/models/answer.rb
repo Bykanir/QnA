@@ -3,10 +3,10 @@
 class Answer < ApplicationRecord
   include Votable
   include Commentable
-  
+
   has_many :links, dependent: :destroy, as: :linkable
 
-  belongs_to :author, class_name: 'User', foreign_key: 'author_id'
+  belongs_to :author, class_name: 'User'
   belongs_to :question
 
   has_many_attached :files

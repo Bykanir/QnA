@@ -9,7 +9,7 @@ class AnswersController < ApplicationController
   include Voted
 
   authorize_resource
-  
+
   def create
     @answer = question.answers.create(answer_params.merge(author: current_user))
   end
@@ -50,12 +50,13 @@ class AnswersController < ApplicationController
 
   def publish_answer
     return if @answer.errors.any?
+
     ActionCable.server.broadcast(
       "question_#{question.id}_answers",
-      { 
-        author_id: current_user.id, 
-        template: ApplicationController.render( partial: 'answers/simple_answer',
-                                                locals: { answer: @answer } )
+      {
+        author_id: current_user.id,
+        template: ApplicationController.render(partial: 'answers/simple_answer',
+                                               locals: { answer: @answer })
       }
     )
   end
@@ -63,5 +64,4 @@ class AnswersController < ApplicationController
   def gon_question_id
     gon.question_id = @answer.question.id if question
   end
-  
 end

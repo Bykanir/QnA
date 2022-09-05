@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :oauth_appilication, class: 'Doorkeeper::Application' do
     name { 'Test' }

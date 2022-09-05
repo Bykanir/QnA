@@ -70,9 +70,9 @@ feature 'Authenticated user can create answer' do
       Capybara.using_session('user') do
         within '.new-answer' do
           fill_in 'Body', with: 'My new answer'
-          click_on 'Send' 
+          click_on 'Send'
         end
-        
+
         expect(page).to have_content 'My new answer'
       end
 

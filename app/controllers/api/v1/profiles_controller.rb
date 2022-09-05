@@ -1,11 +1,15 @@
-class Api::V1::ProfilesController < Api::V1::BaseController
+# frozen_string_literal: true
 
-  def me
-    render json: current_resource_owner
+module Api
+  module V1
+    class ProfilesController < Api::V1::BaseController
+      def me
+        render json: current_resource_owner
+      end
+
+      def index
+        render json: User.where.not(id: current_resource_owner.id)
+      end
+    end
   end
-
-  def index
-    render json: User.where.not(id: current_resource_owner.id)
-  end
-
 end

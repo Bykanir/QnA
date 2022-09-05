@@ -12,7 +12,7 @@ class Link < ApplicationRecord
 
   def gist
     client = Octokit::Client.new
-    gist = client.gist(url.split("/").last)
+    gist = client.gist(url.split('/').last)
     file = {}
     gist.files.each { |_, v| file = v }
     file.content

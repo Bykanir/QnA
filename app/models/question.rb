@@ -8,7 +8,7 @@ class Question < ApplicationRecord
   has_many :links, dependent: :destroy, as: :linkable
   has_one :reward, dependent: :destroy
 
-  belongs_to :author, class_name: 'User', foreign_key: 'author_id'
+  belongs_to :author, class_name: 'User'
 
   has_many_attached :files
 

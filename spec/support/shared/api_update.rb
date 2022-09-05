@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_examples_for 'API Update' do
   let(:headers) { { 'ACCEPT' => 'application/json' } }
   let(:klass) { resource.to_s.downcase.to_sym }
@@ -18,7 +20,8 @@ shared_examples_for 'API Update' do
 
   context 'with invalid data' do
     before do
-      do_request(method, api_path, params: { klass => invalid_attrs, access_token: access_token.token }, headers: headers)
+      do_request(method, api_path, params: { klass => invalid_attrs, access_token: access_token.token },
+                                   headers: headers)
     end
 
     it 'return 422 status' do
@@ -27,6 +30,12 @@ shared_examples_for 'API Update' do
 
     it 'does not update the question' do
       expect(assigns(klass).reload.body).not_to eq invalid_attrs[:body]
+    end
+
+    it 'returns errors' do
+      do_request(method, api_path, params: { klass => invalid_attrs, access_token: access_token.token },
+                                   headers: headers)
+      expect(response.body).to include('errors')
     end
   end
 end

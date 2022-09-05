@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 feature 'User can voted for question' do
-
   given(:author) { create(:user) }
   given(:user) { create(:user) }
   given(:question) { create(:question, author: author) }
@@ -66,5 +67,4 @@ feature 'User can voted for question' do
 
     expect(page).to have_content "You can't voted"
   end
-
 end

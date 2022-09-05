@@ -1,4 +1,6 @@
-module Votable 
+# frozen_string_literal: true
+
+module Votable
   extend ActiveSupport::Concern
 
   included do
@@ -12,15 +14,15 @@ module Votable
   def vote_dawn(user)
     vote(user, -1)
   end
-  
+
   def all_votes
-    votes.sum(:score)    
+    votes.sum(:score)
   end
 
   def delete_vote(user)
     votes.find_by(user_id: user).destroy
   end
-  
+
   private
 
   def vote(user, score)
