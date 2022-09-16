@@ -3,8 +3,7 @@
 module Api
   module V1
     class ProfilesController < Api::V1::BaseController
-      
-      authorize_resource class: "User"
+      authorize_resource class: 'User'
 
       def me
         render json: current_resource_owner

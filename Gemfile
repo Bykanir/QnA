@@ -47,9 +47,11 @@ gem 'omniauth-github'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
 gem 'omniauth-vkontakte'
+gem 'sidekiq'
+gem 'sinatra', require: false
 gem 'skim'
 gem 'slim-rails'
-gem 'sidekiq'
+gem 'whenever', require: false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

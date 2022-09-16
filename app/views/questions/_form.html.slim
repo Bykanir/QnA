@@ -37,6 +37,9 @@
   - if can?(:destroy, Question)
     p= link_to 'Delete question', question_path(question), method: :delete
 
+  .subscribe
+    = render 'subscriptions' 
+
   .question-errors
     = render 'shared/errors', resource: question
     
