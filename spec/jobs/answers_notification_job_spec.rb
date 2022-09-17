@@ -14,6 +14,6 @@ RSpec.describe AnswersNotificationJob, type: :job do
 
   it 'calls DailyDigest#send_digest' do
     expect(service).to receive(:send_answer).with(answer)
-    AnswersNotificationJob.perform_now(answer)
+    described_class.perform_now(answer)
   end
 end
