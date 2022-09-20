@@ -53,7 +53,7 @@ gem 'skim'
 gem 'slim-rails'
 gem 'whenever', require: false
 gem 'mysql2'
-gem 'thinking-sphinx'
+gem 'thinking-sphinx', '~> 4.3.1'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
