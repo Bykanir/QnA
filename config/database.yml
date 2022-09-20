@@ -1,0 +1,16 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: tn_qna_development
+  username: sergey
+  password: 123
+
+test:
+  <<: *default
+  database: tn_qna_test
+  username: sergey
+  password: 123
