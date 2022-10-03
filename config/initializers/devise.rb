@@ -279,6 +279,7 @@ Devise.setup do |config|
   config.omniauth :google_oauth2,
                   Rails.application.credentials[Rails.env.to_sym][:google_oauth2][:app_id],
                   Rails.application.credentials[Rails.env.to_sym][:google_oauth2][:app_secret],
+                  scope: 'user:email, read:user',
                   {}
 
   # ==> Warden configuration
