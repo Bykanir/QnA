@@ -53,6 +53,7 @@ gem 'skim'
 gem 'slim-rails'
 gem 'whenever', require: false
 gem 'mini_racer', '~> 0.3.1'
+gem 'unicorn'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -78,6 +79,8 @@ group :development do
   gem 'capistrano-rvm', require: false
   gem 'capistrano-passenger', require: false
   gem 'capistrano-sidekiq', require: false
+  gem 'capistrano3-unicorn', require: false
+
 end
 
 group :test do
