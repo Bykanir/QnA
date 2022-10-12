@@ -1,58 +1,59 @@
-div id="answer-#{answer.id}"
-  p= answer.body
-  
-  .vote-answer
-    = render 'shared/votes', resource: answer
+ - cache answer do 
+  div id="answer-#{answer.id}"
+    p= answer.body
+    
+    .vote-answer
+      = render 'shared/votes', resource: answer
 
-  .links
-    p Links:
-    ul
-      - answer.links.each do |link|
-        div class="link-#{link.id}"
-          li= link_to link.name, link.url
-          - if link.gist?
-            p= link.gist
-          - if can?(:destroy, Link)
-            p= link_to 'Delete link', link_path(link),
-                        class: 'delete-link-link',
-                        method: :delete,
-                        remote: true
+    .links
+      p Links:
+      ul
+        - answer.links.each do |link|
+          div class="link-#{link.id}"
+            li= link_to link.name, link.url
+            - if link.gist?
+              p= link.gist
+            - if can?(:destroy, Link)
+              p= link_to 'Delete link', link_path(link),
+                          class: 'delete-link-link',
+                          method: :delete,
+                          remote: true
 
-  - if answer.files.attached?
-    - answer.files.each do |file|
-      div class="attachment-#{file.id}"
-        = link_to file.filename.to_s, url_for(file)
-        p= link_to 'Delete file', attachment_path(file),
-                class: 'delete-attachment-link',
-                method: :delete, remote: true
+    - if answer.files.attached?
+      - answer.files.each do |file|
+        div class="attachment-#{file.id}"
+          = link_to file.filename.to_s, url_for(file)
+          p= link_to 'Delete file', attachment_path(file),
+                  class: 'delete-attachment-link',
+                  method: :delete, remote: true
 
-  - if can?(:update, Answer) && answer.persisted?
-    = link_to  'Edit answer', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
-  - if can?(:destroy, Answer) && answer.persisted?
-    p= link_to 'Delete answer', answer_path(answer), 
-                class: 'delete-answer-link', 
-                method: :delete, remote: true, 
-                data: { answer_id: answer.id }
+    - if can?(:update, Answer) && answer.persisted?
+      = link_to  'Edit answer', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+    - if can?(:destroy, Answer) && answer.persisted?
+      p= link_to 'Delete answer', answer_path(answer), 
+                  class: 'delete-answer-link', 
+                  method: :delete, remote: true, 
+                  data: { answer_id: answer.id }
 
-  - if !answer.best? && can?(:best, Answer)
-    p= link_to 'Best answer', best_answer_path(question, answer),
-                class: 'best-answer-link',
-                method: :patch, remote: true,
-                data: { answer_id: answer.id }
+    - if !answer.best? && can?(:best, Answer)
+      p= link_to 'Best answer', best_answer_path(question, answer),
+                  class: 'best-answer-link',
+                  method: :patch, remote: true,
+                  data: { answer_id: answer.id }
 
-  .comments-answer
-    = render answer.comments
-    = render 'comments/form', resource: answer
+    .comments-answer
+      = render answer.comments
+      = render 'comments/form', resource: answer
 
-= form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
-  = f.label :body, 'Your answer'
-  = f.text_area :body
+  = form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
+    = f.label :body, 'Your answer'
+    = f.text_area :body
 
-  = f.label :files
-  = f.file_field :files, multiple: true, direct_upload: true
+    = f.label :files
+    = f.file_field :files, multiple: true, direct_upload: true
 
-  = f.fields_for :links do |link|
-  .links
-    = link_to_add_association 'Add link', f, :links, partial: 'questions/link_fields'
+    = f.fields_for :links do |link|
+    .links
+      = link_to_add_association 'Add link', f, :links, partial: 'questions/link_fields'
 
-  = f.submit 'Save'
+    = f.submit 'Save'

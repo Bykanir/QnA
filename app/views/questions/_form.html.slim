@@ -1,60 +1,61 @@
-.question
-  h1= question.title
-  p= question.body
-  - if question.files.attached?
-    - question.files.each do |file|
-      div class="attachment-#{file.id}"
-        = link_to  file.filename.to_s, url_for(file)
-        p= link_to 'Delete file', attachment_path(file),
-                    class: 'delete-attachment-link',
-                    method: :delete, remote: true
-  
-  .vote-question
-    = render 'shared/votes', resource: question 
+- cache question do
+  .question
+    h1= question.title
+    p= question.body
+    - if question.files.attached?
+      - question.files.each do |file|
+        div class="attachment-#{file.id}"
+          = link_to  file.filename.to_s, url_for(file)
+          p= link_to 'Delete file', attachment_path(file),
+                      class: 'delete-attachment-link',
+                      method: :delete, remote: true
+    
+    .vote-question
+      = render 'shared/votes', resource: question 
 
-  .links
-    p Links:
-    ul
-      - question.links.each do |link|
-        div class="link-#{link.id}"
-          li= link_to link.name, link.url
-          - if link.gist?
-            p= link.gist
-          - if can?(:destroy, Link)
-            p= link_to 'Delete link', link_path(link),
-                    class: 'delete-link-link',
-                    method: :delete,
-                    remote: true
+    .links
+      p Links:
+      ul
+        - question.links.each do |link|
+          div class="link-#{link.id}"
+            li= link_to link.name, link.url
+            - if link.gist?
+              p= link.gist
+            - if can?(:destroy, Link)
+              p= link_to 'Delete link', link_path(link),
+                      class: 'delete-link-link',
+                      method: :delete,
+                      remote: true
 
-  - if question.reward.present?
-    .reward
-      p Reward for best answer:
-      p= question.reward.title
-      = image_tag(question.reward.image, size: '100x100')
+    - if question.reward.present?
+      .reward
+        p Reward for best answer:
+        p= question.reward.title
+        = image_tag(question.reward.image, size: '100x100')
 
-  - if can?(:update, Question)
-    = link_to  'Edit question', '#', class: 'edit-question-link', data: { question_id: question.id }
-  - if can?(:destroy, Question)
-    p= link_to 'Delete question', question_path(question), method: :delete
+    - if can?(:update, Question)
+      = link_to  'Edit question', '#', class: 'edit-question-link', data: { question_id: question.id }
+    - if can?(:destroy, Question)
+      p= link_to 'Delete question', question_path(question), method: :delete
 
   .subscribe
     = render 'subscriptions' 
 
-  .question-errors
-    = render 'shared/errors', resource: question
-    
-  = form_with model: question, local: false, class: 'hidden', html: { id: "edit-question-#{question.id}" } do |f|
-    = f.label :body, 'Your question'
-    = f.text_area :body
+    .question-errors
+      = render 'shared/errors', resource: question
+      
+    = form_with model: question, local: false, class: 'hidden', html: { id: "edit-question-#{question.id}" } do |f|
+      = f.label :body, 'Your question'
+      = f.text_area :body
 
-    = f.label :files
-    = f.file_field :files, multiple: true, direct_upload: true
+      = f.label :files
+      = f.file_field :files, multiple: true, direct_upload: true
 
-    = f.fields_for :links do |link|
-    .links
-      = link_to_add_association 'Add link', f, :links, partial: 'link_fields'
+      = f.fields_for :links do |link|
+      .links
+        = link_to_add_association 'Add link', f, :links, partial: 'link_fields'
 
-    = f.submit 'Save'
+      = f.submit 'Save'
 
 
   .comments-question

@@ -54,6 +54,7 @@ gem 'slim-rails'
 gem 'whenever', require: false
 gem 'mini_racer', '~> 0.3.1'
 gem 'unicorn'
+gem 'redis-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
