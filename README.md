@@ -1,24 +1,5 @@
-# README
+Учебный проект "QnA". Аналог Stack Overflow
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Цель проекта углубиться в изучении веб-фреймворка Ruby on Rails
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Технологии которые применялись: TDD/BDD, RSpec, Capybara, ActiveStorage, Devcise, Javascript, ActionMailer, ActionCable, ActiveJob, Concerns, JSON, OmniAuth, CanCanCan, Doorkeeper, Capistrano, Monit, Unicorn
